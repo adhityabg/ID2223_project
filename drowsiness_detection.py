@@ -34,7 +34,7 @@ reye = cv2.CascadeClassifier(haar_dir + "haarcascade_righteye_2splits.xml")
 
 lbl = ['Close', 'Open']
 
-model = load_model(model_dir + "eye_classifier_20201218.h5")
+model = load_model(model_dir + "eye_classifier_20201219.h5")
 path = os.getcwd()
 cap = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_COMPLEX_SMALL
@@ -61,8 +61,8 @@ while(True):
     cv2.rectangle(frame, (0, height-50), (200, height),
                   (0, 0, 0), thickness=cv2.FILLED)
 
-    for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (100, 100, 100), 1)
+    # for (x, y, w, h) in faces:
+    #     cv2.rectangle(frame, (x, y), (x+w, y+h), (100, 100, 100), 1)
 
     for (x, y, w, h) in right_eye:
         r_eye = gray[y:y+h, x:x+w]
@@ -74,10 +74,10 @@ while(True):
         preds = model.predict(r_eye_preprocessed)
         rpred = [p for p in np.argmax(preds, axis=1)]
         if(rpred == [1]):
-            print("R open")
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 128, 0), 5)
             lbl = 'Open'
         else:
-            print("R Close")
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 128), 5)
             lbl = 'Closed'
         break
 
@@ -91,10 +91,10 @@ while(True):
         preds = model.predict(l_eye_preprocessed)
         lpred = [p for p in np.argmax(preds, axis=1)]
         if(lpred == [1]):
-            print("L open")
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 128, 0), 5)
             lbl = 'Open'
         else:
-            print("L close")            
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 128), 5)
             lbl = 'Closed'
         break
 
