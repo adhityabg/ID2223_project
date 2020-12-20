@@ -18,7 +18,7 @@ if not os.path.exists(frames_dir):
     os.mkdir(frames_dir)
 for name in listdir(videos):
   filename = videos + name
-  vidcap = cv2.VideoCapture(0)
+  vidcap = cv2.VideoCapture(filename)
   success, image = vidcap.read()
   count = 0
   while success and count<500:
